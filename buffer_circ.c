@@ -34,7 +34,7 @@ int buffer_insert(buffer_circ_t *b,void *data, unsigned int size)
 
   return(ret);
 }
-int buffer_retrieve(buffer_circ_t *b void *data, unsigned int size)
+int buffer_retrieve(buffer_circ_t *b,  void *data, unsigned int size)
 {
   int ret = 0;
   unsigned char *ptr = (unsigned char *)data;
@@ -84,4 +84,8 @@ int buffer_flush(buffer_circ_t *b)
   b->items = 0;
 
   return(ret);
+}
+int buffer_empty(buffer_circ_t *b)
+{
+  return((b->items == 0? 1: 0));
 }
