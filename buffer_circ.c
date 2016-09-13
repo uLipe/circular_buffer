@@ -9,13 +9,23 @@ int buffer_insert(buffer_circ_t *b,void *data, unsigned int size)
   unsigned char *ptr = (unsigned char *)data;
 
   if(b == NULL) {
+    /* check your buffer parameter */
     return(ret);
   }
 
-  if(size + b->items <= BUFFER_SIZE) {
+  if(size + b->items <= BUFFER_SIZE){
+
+    /* the buffer has enough room, insert
+     * stream.
+     */
     unsigned int i;
     for(i = 0; i < size; i++) {
         b->data[wr_ptr] = *ptr++;
+
+        /* increment the input index in form  if it
+         * reach the buffer end, its placed in it
+         * initial address again
+         */
         wr_ptr =  (wr_ptr + 1) % BUFFER_SIZE;
         b->items++;
     }
@@ -30,10 +40,15 @@ int buffer_retrieve(buffer_circ_t *b void *data, unsigned int size)
   unsigned char *ptr = (unsigned char *)data;
 
   if(b == NULL) {
+    /* check your buffer parameter */
     return((ret = -1));
   }
 
   if(size + b->items <= BUFFER_SIZE) {
+    /* if the size requested fits on
+     * current contents, extract
+     * the data stream
+     */
     unsigned int i;
     for(i = 0; (i < size) || (b->items != 0); i++) {
         *ptr++ = b->data[rd_ptr];
