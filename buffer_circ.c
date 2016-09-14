@@ -80,8 +80,13 @@ int buffer_will_full(buffer_circ_t *b, unsigned int size)
 int buffer_flush(buffer_circ_t *b)
 {
   int ret = 0;
-  b->wr_ptr = b->rd_ptr;
-  b->items = 0;
+
+  if(b != NULL) {
+    b->wr_ptr = b->rd_ptr;
+    b->items = 0;
+  } else {
+    ret = -1;
+  }
 
   return(ret);
 }
