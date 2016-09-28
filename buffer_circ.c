@@ -44,19 +44,18 @@ int buffer_retrieve(buffer_circ_t *b,  void *data, unsigned int size)
     return((ret = -1));
   }
 
-  if(size + b->items <= BUFFER_SIZE) {
-    /* if the size requested fits on
-     * current contents, extract
-     * the data stream
-     */
-    unsigned int i;
-    for(i = 0; (i < size) || (b->items != 0); i++) {
-        *ptr++ = b->data[rd_ptr];
-        rd_ptr =  (rd_ptr + 1) % BUFFER_SIZE;
-        ret++;
-        b->items--;
-    }
+  /* if the size requested fits on
+   * current contents, extract
+   * the data stream
+   */
+  unsigned int i;
+  for(i = 0; (i < size) && (b->items != 0); i++) {
+      *ptr++ = b->data[rd_ptr];
+      rd_ptr =  (rd_ptr + 1) % BUFFER_SIZE;
+      ret++;
+      b->items--;
   }
+
   return(ret);
 }
 int buffer_full(buffer_circ_t *b)
